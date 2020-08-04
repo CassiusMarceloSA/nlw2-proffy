@@ -10,11 +10,7 @@
 
    Clonar o repositório
 
-    $ git clone https://github.com/freitasDavi/NLW2_Proffy
-
-    # Instalar o node/yarn
-
-    $choco install yarn
+    $ git clone https://github.com/CassiusMarceloSA/nlw2-proffy/
 
     # Instalar as dependencias
 
