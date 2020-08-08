@@ -1,38 +1,64 @@
 import React from "react";
 import whatsappIcon from "../../assets/images/icons/whatsapp.svg";
+import api from "../../services/api";
 
 import "./styles.css";
 
-const TeacherItem = () => (
-  <article className="teacher-item">
-    <header>
-      <img
-        src="https://www.w3schools.com/howto/img_avatar.png"
-        alt="Descassito"
-      />
-      <div>
-        <strong>Descassito</strong>
-        <span>Quimica</span>
-      </div>
-    </header>
-    <p>
-      Entusiasta das melhores fotografias do mundo!
-      <br />
-      <br />
-      Apaixonado por cada clique em lugares totalmente exoticos, mais de 200.000
-      fotos ja foram para seu site.
-    </p>
-    <footer>
-      <p>
-        Preço por hora
-        <strong>R$ 20,00</strong>
-      </p>
-      <button type="button">
-        <img src={whatsappIcon} alt="Whatsapp" />
-        Entrar em contato
-      </button>
-    </footer>
-  </article>
-);
+interface Teacher {
+  id: number;
+  avatar: string;
+  name: string;
+  subject: string;
+  bio: string;
+  cost: string;
+  whatsapp: string;
+}
 
+const formatCurrency = (value: number) =>
+  new Intl.NumberFormat("pt-BR", {
+    currency: "BRL",
+    style: "currency",
+  }).format(value);
+
+const TeacherItem: React.FC<Teacher> = ({
+  id,
+  avatar,
+  name,
+  subject,
+  bio,
+  cost,
+  whatsapp,
+}) => {
+  const createNewConnection = () => {
+    api.post("connections", {
+      user_id: id,
+    });
+  };
+  return (
+    <article className="teacher-item">
+      <header>
+        <img src={avatar} alt={name} />
+        <div>
+          <strong>{name}</strong>
+          <span>{subject}</span>
+        </div>
+      </header>
+      <p>{bio}</p>
+      <footer>
+        <p>
+          Preço por hora
+          <strong>{formatCurrency(+cost)}</strong>
+        </p>
+        <a
+          onClick={createNewConnection}
+          href={`https://wa.me/${whatsapp}`}
+          target="_blank"
+        >
+          <img src={whatsappIcon} alt="Whatsapp" />
+          Entrar em contato
+        </a>
+      </footer>
+    </article>
+  );
+};
 export default TeacherItem;
